@@ -4,7 +4,7 @@ from typing import TypeVar, Generic
 T = TypeVar('T')
 
 
-class ResultType(Enum):
+class ResultStatus(Enum):
     SUCCESS = 'ok',
     FAILURE = 'failure'
     BUSINESS_EXCEPTION = 'business_exception'
@@ -19,35 +19,37 @@ class Result(Generic[T]):
 
     @classmethod
     def success(cls, value=None, message=None):
-        return cls(ResultType.SUCCESS, value, None, message)
+        return cls(ResultStatus.SUCCESS, value, None, message)
 
     @classmethod
     def failure(cls, exception=None, message=None):
         if exception is None and message is None:
             raise ValueError('Either exception or message must be provided')
 
-        return cls(ResultType.FAILURE, None, exception, message)
+        return cls(ResultStatus.FAILURE, None, exception, message)
 
     @classmethod
     def business_exception(cls, message):
-        return cls(ResultType.BUSINESS_EXCEPTION, None, message=message)
+        return cls(ResultStatus.BUSINESS_EXCEPTION, None, message=message)
 
+    @property
     def is_success(self):
-        return self.status == 'success'
+        return self.status == ResultStatus.SUCCESS
 
+    @property
     def is_failure(self):
-        return self.status == 'failure'
+        return self.status == ResultStatus.FAILURE
 
+    @property
     def is_business_exception(self):
-        return self.status == 'business_exception'
+        return self.status == ResultStatus.BUSINESS_EXCEPTION
 
     @property
     def value(self):
         return self._value
 
-    @value.setter
-    def value(self, value):
-        raise ValueError('Value of Result cannot be changed after creation')
+    def is_of_status(self, status):
+        return self.status == status
 
     def __str__(self):
         return f"Status: {self.status}, Value: {self._value}, Exception: {self.exception}, Message: {self.message}"
@@ -56,16 +58,25 @@ class Result(Generic[T]):
 if __name__ == '__main__':
     success = Result.success(1)
     print(success)
+    assert success.is_success
 
     success_with_message = Result.success([], 'search returned no results')
     print(success_with_message)
+    assert success_with_message.is_success
 
     failure_with_exception = Result.failure(ValueError('search failed'))
     print(failure_with_exception)
+    assert failure_with_exception.is_failure
 
     failure_with_message = Result.failure(None, 'search failed')
     print(failure_with_message)
+    assert failure_with_message.is_failure
 
     business_exception = Result.business_exception(
         'items in the cart are not available')
     print(business_exception)
+    assert business_exception.is_business_exception
+
+    other_status = Result('other', 'ok')
+    print(other_status)
+    assert other_status.is_of_status('other')
