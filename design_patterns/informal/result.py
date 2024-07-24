@@ -11,7 +11,7 @@ class ResultStatus(Enum):
 
 
 class Result(Generic[T]):
-    def __init__(self, status, value=None, exception=None, message=None):
+    def __init__(self, status, value: T = None, exception=None, message=None):
         self.status = status
         self._value = value
         self.exception = exception
