@@ -39,6 +39,7 @@ class BitmapToImageAdapter():
         pass
 
 
-bitmap = take_screenshot()
-image = BitmapToImageAdapter(bitmap).adapt()
-image.save('image.png')
+if __name__ == '__main__':
+    bitmap = take_screenshot()
+    image = BitmapToImageAdapter(bitmap).adapt()
+    image.save('image.png')

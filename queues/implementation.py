@@ -72,24 +72,25 @@ class Item(AbstractQueueItem):
         return f'Item: {self.data}, Status: {self.status}, creation_date: {self.creation_date}'
 
 
-print('==> instantiate queue')
+if __name__ == '__main__':
+    print('==> instantiate queue')
 
-queue_items = []
-queue = DictQueue(queue_items)
+    queue_items = []
+    queue = DictQueue(queue_items)
 
+    print('==> instantiate items')
+    test_items = [Item(data={'name': f'test {value}'})
+                  for value in range(1, 4)]
 
-print('==> instantiate items')
-test_items = [Item(data={'name': f'test {value}'}) for value in range(1, 4)]
+    for item in test_items:
+        print('==> adding item', item)
+        queue.add(item)
 
-for item in test_items:
-    print('==> adding item', item)
-    queue.add(item)
+    while queue.has_pending_items():
+        next_item = queue.get_next()
+        print('processing item', next_item)
 
-while queue.has_pending_items():
-    next_item = queue.get_next()
-    print('processing item', next_item)
+        queue.update_item(next_item, 'success')
 
-    queue.update_item(next_item, 'success')
-
-if not queue.has_pending_items():
-    print('==> queue is empty')
+    if not queue.has_pending_items():
+        print('==> queue is empty')
