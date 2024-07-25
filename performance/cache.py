@@ -1,5 +1,5 @@
 
-import design_patterns.decorators.metrics as metrics
+import design_patterns.structural.decorators.metrics as metrics
 import functools
 
 

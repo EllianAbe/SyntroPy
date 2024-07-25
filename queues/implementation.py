@@ -1,7 +1,7 @@
 from typing import Any, Sequence, Literal
 from queues.queue import AbstractQueue
 from queues.item import AbstractQueueItem
-from design_patterns.decorators.method_calls import print_after_method
+from design_patterns.structural.decorators.method_calls import print_after_method
 from datetime import datetime
 
 
