@@ -3,7 +3,6 @@ from pydantic import BaseModel
 from air_conditionair import AirConditioner
 import logging
 import threading
-import time
 
 app = FastAPI()
 ac = AirConditioner()

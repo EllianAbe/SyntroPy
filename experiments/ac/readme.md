@@ -9,13 +9,44 @@ This project demonstrates a control system for an air conditioner using various 
 **Main Concepts**
 -----------------
 
-### State Machine
+### Event-Driven State Machine
 
-The air conditioner's state is managed using a finite state machine (FSM) approach. The FSM is implemented in `states.py` and defines the possible states of the air conditioner, such as `ON`, `OFF`, `COOLING`, and `HEATING`. The FSM ensures that the air conditioner can only transition between valid states.
+The air conditioner's state is managed using an event-driven state machine approach. The state machine is implemented in states.py and defines the possible states of the air conditioner, such as ON, OFF, COOLING, and HEATING. The state machine responds to events, such as remote control button presses or temperature changes, and transitions between states accordingly.
 
 ### Parallelism
 
-To simulate the air conditioner's operation, we use parallelism to run multiple tasks concurrently. The `server.py` file uses the `threading` module to create separate threads for running the air conditioner's control logic and the API server.
+To simulate the air conditioner's operation, we use parallelism to run multiple tasks concurrently. The `server.py` file uses the `threading` module to create separate threads for running the air conditioner's control logic and the API server.]
+
+
+
+### State Base Class
+
+The `State` base class is a crucial component of the air conditioner's state machine. It serves as an abstraction, defining the common interface and behavior for all states.
+
+#### Interface
+
+The `State` base class defines an interface that all concrete states must implement. This interface includes two methods:
+
+* `handle(self, air_conditioner)`: This method is called when the air conditioner is in a particular state. It allows the state to perform any necessary actions or transitions.
+* `on_event(self, air_conditioner, event)`: This method is called when an event occurs, such as a button press or a temperature change. It allows the state to respond to the event and potentially transition to a new state.
+
+By defining this interface, the `State` base class ensures that all concrete states have a consistent structure and behavior.
+
+#### Abstraction
+
+The `State` base class also provides abstraction, hiding the implementation details of the concrete states. This allows the air conditioner's control logic to interact with the states without knowing the specific details of each state.
+
+For example, the `AirConditioner` class can call the `handle` method on the current state without knowing whether it's an `OffState`, `CoolingState`, or `HeatingState`. This decouples the control logic from the specific states, making the system more modular and easier to maintain.
+
+#### Benefits
+
+The `State` base class provides several benefits:
+
+**Encapsulation**: The state's behavior and data are encapsulated within the state object, making it easier to modify or replace states without affecting the rest of the system.
+**Polymorphism**: The `State` base class allows for polymorphic behavior, where different states can respond to the same events or method calls in different ways.
+**Extensibility**: Adding new states is straightforward, as they can simply implement the `State` interface and be used by the air conditioner's control logic.
+
+By using a base class to define the state interface and behavior, we can create a more modular, extensible, and maintainable state machine.
 
 ### API
 
