@@ -1,5 +1,5 @@
 # Observer Design Pattern + Mediator Design Pattern + Decorator Design Pattern
-class DecoratorsManager():
+class ObservationDecorators():
     def __init__(self, topic_subscribers_dict: dict[str, list] = {}):
         self.topic_subscribers_dict = topic_subscribers_dict
 
@@ -33,15 +33,15 @@ class DecoratorsManager():
         return decorator
 
 
-class Observer():
+class ObservationMediator():
     def __init__(self):
         self.topic_subscribers_dict: dict[str, list] = {}
-        self.decorators = DecoratorsManager(self.topic_subscribers_dict)
+        self.decorators = ObservationDecorators(self.topic_subscribers_dict)
         self.notify = self.decorators.notify
         self.subscriber = self.decorators.subscriber
 
 
-observer = Observer()
+observer = ObservationMediator()
 
 
 class Publisher():
