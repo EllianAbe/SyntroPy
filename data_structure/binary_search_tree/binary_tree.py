@@ -34,6 +34,7 @@ class BinarySearchTree:
             self.root.insert(value)
 
     def __str__(self) -> str:
+        return str(self.root)
         pass
 
 
