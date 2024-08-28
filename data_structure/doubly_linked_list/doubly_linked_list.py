@@ -5,7 +5,7 @@ class Node():
         self.previous = None
 
 
-class DoubleLinkedList():
+class DoublyLinkedList():
     def __init__(self):
         self.head = None
         self.tail = None
@@ -43,7 +43,7 @@ class DoubleLinkedList():
             return data
 
     def __eq__(self, other):
-        if isinstance(other, DoubleLinkedList):
+        if isinstance(other, DoublyLinkedList):
             if self.size != other.size:
                 return False
 
